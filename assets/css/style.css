@@ -1,0 +1,81 @@
+@import url('https://fonts.googleapis.com/css2?family=Oxygen:wght@300;400;700&display=swap');
+
+/* body {
+    background-color: rgb(238, 222, 222);
+}
+
+.btn-custom-color {
+    background-color: rgb(136, 109, 109);
+}
+
+.btn-custom-color1 {
+    background-color: rgb(136, 109, 109);
+} */
+
+
+
+
+
+
+h2.big-h2 {
+    font-size: 2.8rem;
+}
+
+/* .header {
+    padding: 2em 0;
+    font-family: 'Oxygen', sans-serif;
+    background-color: #A1C084;
+} */
+
+/* .header-admin {
+    padding: 2em 0;
+    font-family: 'Oxygen', sans-serif;
+    background-color: #A1C084;
+} */
+
+/* .header h1 {
+    font-size: 5em;
+    font-weight: 700;
+    font-style: normal;
+    color: aliceblue;
+} */
+
+/* .footer {
+    background-color: #1b1da1;
+} */
+
+.form-error {
+    min-height: 1rem;
+    color: rgb(180, 100, 100);
+    font-size: 0.9rem;
+    font-style: italic;
+}
+
+.login-error {
+    min-height: 1.2rem;
+    color: rgb(180, 100, 100);
+    font-size: 0.7rem;
+    font-style: italic;
+}
+
+.connection-error {
+    min-height: rem;
+    color: rgb(255, 190, 190);
+    font-size: 0.9rem;
+    font-style: italic;
+}
+
+.my-btn-infos {
+    background-color: #69A2B0;
+    color: aliceblue;
+}
+
+.my-btn-update {
+    background-color: #69A2B0;
+    color: aliceblue;
+}
+
+.my-btn-delete {
+    background-color: #E05263;
+    color: aliceblue;
+}
