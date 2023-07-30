@@ -34,6 +34,10 @@
                         <select class="form-select form-select-sm mb-4" name="type" id="type">
                             <option value="" selected disabled>Choix du type</option>
                             <option value="1">Déplacement</option>
+                            <option value="1">Habillage</option>
+                            <option value="1">Hébergement</option>
+                            <option value="1">Kilométrique</option>
+                            <option value="1">Repas</option>
                         </select>
 
                         <div class="mb-4">
@@ -60,7 +64,7 @@
                         </div>
 
                         <div class="text-center">
-                            <button type="submit" class="btn btn-primary mb-lg-0 mb-3">Enregistrer</button>
+                            <button type="submit" class="btn btn-secondary mb-lg-0 mb-3">Enregistrer</button>
                             <a href="../controllers/login-controller.php" class="btn btn-outline-secondary font-pangolin">Annuler</a>
                             <p class="mt-3">* Champs obligatoires</p>
                         </div>

@@ -79,6 +79,98 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         // nous mettons en place un message d'erreur dans le cas où la requête échouée
         $errors['bdd'] = 'Une erreur est survenue lors de la creation de votre compte';
     }
+
+}
+
+
+// ExpenseController.php
+
+class ExpenseController
+{
+    public function handleRequest()
+    {
+        // Créez une instance du modèle
+        $model = new Expense_report();
+
+        // Vérifiez les actions demandées dans l'URL
+        $action = isset($_GET['action']) ? $_GET['action'] : 'list';
+
+        switch ($action) {
+            case 'list':
+                // Afficher la liste des notes de frais pour un employé donné
+                $emp_id = 1; // Ici, nous utilisons l'ID de l'employé 1 à titre d'exemple, vous pouvez récupérer l'ID de l'employé connecté
+                $expenses = $model->getEmployeeExpenses($emp_id);
+                include 'app/views/view_expense.php';
+                break;
+            case 'add':
+                // Ajouter une nouvelle note de frais
+                if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                    // Traitement du formulaire d'ajout ici
+                    // Récupérer les données du formulaire, puis appeler la fonction pour ajouter la note de frais
+                    $emp_id = 1; // Ici, nous utilisons l'ID de l'employé 1 à titre d'exemple, vous pouvez récupérer l'ID de l'employé connecté
+                    $date = $_POST['date'];
+                    $amount = $_POST['amount'];
+                    $description = $_POST['description'];
+                    $model->addExpense($emp_id, $date, $amount, $description);
+
+                    // Rediriger vers la liste des notes de frais
+                    header('Location: index.php?controller=Expense&action=list');
+                    exit;
+                } else {
+                    include 'app/views/add_expense.php';
+                }
+                break;
+            case 'validate':
+                // Valider une note de frais (action réservée aux administrateurs)
+                // Vérifiez les autorisations ici (vous pouvez utiliser une variable de session pour vérifier si l'utilisateur est administrateur)
+                $exp_id = $_GET['exp_id'];
+                $model->validateExpense($exp_id);
+
+                // Rediriger vers la liste des notes de frais
+                header('Location: index.php?controller=Expense&action=list');
+                exit;
+                break;
+            // Gérer les autres actions : modifier, supprimer, etc.
+            default:
+                die("Action non valide.");
+                break;
+        }
+    }
+
+    public function login()
+    {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $email = $_POST['email'];
+            $password = $_POST['password'];
+
+            // Vérifier les informations de connexion dans la base de données
+            $isAdmin = $model->checkAdminCredentials($email, $password);
+            $isEmployee = $model->checkEmployeeCredentials($email, $password);
+
+            if ($isAdmin) {
+                // Authentification administrateur réussie
+                session_start();
+                $_SESSION['user_type'] = 'admin';
+
+                // Rediriger vers la page appropriée pour l'administrateur
+                header('Location: index.php?controller=AdminDashboard');
+                exit;
+            } elseif ($isEmployee) {
+                // Authentification employé réussie
+                session_start();
+                $_SESSION['user_type'] = 'employee';
+
+                // Rediriger vers la page appropriée pour l'employé
+                header('Location: index.php?controller=EmployeeDashboard');
+                exit;
+            } else {
+                // Authentification échouée
+                $error = "Adresse e-mail ou mot de passe incorrect.";
+            }
+        }
+
+        include 'app/views/login.php';
+    }
 }
 
 ?>

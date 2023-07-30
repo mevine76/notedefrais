@@ -58,5 +58,63 @@ class Expense_report
             return false;
         }
     }
+
+    public function __construct()
+    {
+        $this->db = new PDO('mysql:host=localhost;dbname=expense', 'votre_utilisateur', 'votre_mot_de_passe');
+        $this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    }
+
+    // Fonctions pour gérer les notes de frais, à compléter selon vos besoins
+
+    // Exemple : Ajouter une note de frais pour un employé
+    public function addExpense($emp_id, $date, $amount, $description)
+    {
+        $stmt = $this->db->prepare("INSERT INTO expense_report (emp_id, exp_date, exp_amount_ttc, exp_description) VALUES (?, ?, ?, ?)");
+        $stmt->execute([$emp_id, $date, $amount, $description]);
+    }
+
+    // Exemple : Récupérer les notes de frais pour un employé donné
+    public function getEmployeeExpenses($emp_id)
+    {
+        $stmt = $this->db->prepare("SELECT * FROM expense_report WHERE emp_id = ?");
+        $stmt->execute([$emp_id]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    // Exemple : Valider une note de frais par un administrateur
+    public function validateExpense($exp_id)
+    {
+        $stmt = $this->db->prepare("UPDATE expense_report SET sta_id = 2 WHERE exp_id = ?");
+        $stmt->execute([$exp_id]);
+    }
+
+    // Autres fonctions de gestion des notes de frais : modifier, supprimer, etc.
+
+    public function checkAdminCredentials($email, $password)
+    {
+        $stmt = $this->db->prepare("SELECT * FROM administrators WHERE adm_mail = ?");
+        $stmt->execute([$email]);
+        $admin = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($admin && password_verify($password, $admin['adm_password'])) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public function checkEmployeeCredentials($email, $password)
+    {
+        $stmt = $this->db->prepare("SELECT * FROM employees WHERE emp_mail = ?");
+        $stmt->execute([$email]);
+        $employee = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($employee && password_verify($password, $employee['emp_password'])) {
+            return true;
+        }
+
+        return false;
+    }
     
 }
