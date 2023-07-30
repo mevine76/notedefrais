@@ -97,7 +97,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         if (Employees::addEmployee($_POST)) {
             $showForm = false;
         } else {
-            // nous mettons en place un message d'erreur dans le cas où la requête échouée
+            // nous mettons en place un message d'erreur dans le cas où la requête échouait
             $errors['bdd'] = 'Une erreur est survenue lors de la creation de votre compte';
         }
     }

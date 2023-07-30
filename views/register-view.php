@@ -4,7 +4,7 @@
 
 <div class="row justify-content-center mx-0 mb-5">
     <div class="container col-lg-8 col-10 px-lg-5 px-3 pb-5 rounded shadow bg-light">
-
+  
 
         <div class="form-error my-3 text-center"><?= $errors['bdd'] ?? '' ?></div>
 
@@ -54,22 +54,22 @@
                         </div>
 
                         <div class="text-center">
-                            <button type="submit" class="btn btn-primary font-pangolin mb-lg-0 mb-3">Enregistrer</button>
-                            <a href="../controllers/login-controller.php" class="btn btn-outline-secondary font-pangolin">Annuler</a>
+                            <button type="submit" class="btn btn-secondary font-pangolin mb-lg-0 mb-3">Enregistrer</button>
+                            <a href="../controllers/LoginController.php" class="btn btn-outline-secondary font-pangolin">Annuler</a>
                             <p class="mt-3">* Champs obligatoires</p>
                         </div>
-
+                    
                     </div>
 
                 </div>
 
             </form>
-
+            
         <?php } else { ?>
             <!-- Nous indiquons que tout est ok -->
             <p class="text-center font-pangolin h3">Votre compte a bien été créé.<br>Vous pouvez maintenant vous connecter.</p>
             <div class="text-center py-3">
-                <a href="../controllers/login-controller.php" class="btn btn-primary font-pangolin m-1">Connexion</a>
+                <a href="../controllers/login-controller.php" class="btn btn-secondary font-pangolin m-1">Connexion</a>
             </div>
 
         <?php } ?>
