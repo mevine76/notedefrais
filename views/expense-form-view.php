@@ -13,10 +13,6 @@
             <!-- penser à mettre enctype="multipart/form-data" pour les fichiers -->
             <form action="" method="POST" enctype="multipart/form-data" novalidate>
 
-            <?php
-                var_dump($_POST);
-                var_dump($_FILES);
-            ?>
 
                 <div class="row justify-content-center mx-0">
 
@@ -65,7 +61,7 @@
 
                         <div class="text-center">
                             <button type="submit" class="btn btn-secondary mb-lg-0 mb-3">Enregistrer</button>
-                            <a href="../controllers/login-controller.php" class="btn btn-outline-secondary font-pangolin">Annuler</a>
+                            <a href="../controllers/dashboard-controller.php" class="btn btn-outline-secondary font-pangolin">Annuler</a>
                             <p class="mt-3">* Champs obligatoires</p>
                         </div>
 
@@ -79,7 +75,9 @@
             <!-- Nous indiquons que tout est ok -->
             <p class="text-center h3">La note a bien été pris en compte.<br>Vous pouvez maintenant vous connecter.</p>
             <div class="text-center py-3">
-                <a href="../controllers/login-controller.php" class="btn btn-primary font-pangolin m-1">Connexion</a>
+                <a href="../controllers/expense-form-controller.php" class="btn btn-secondary font-pangolin m-1">Ajouter une nouvelle note de frais</a>
+                <a href="../controllers/dashboard-controller.php" class="btn btn-secondary font-pangolin m-1">Retour</a>
+
             </div>
 
         <?php } ?>

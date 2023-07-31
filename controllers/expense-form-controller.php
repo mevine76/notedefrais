@@ -12,6 +12,7 @@ require_once '../helpers/Form.php';
 
 // j'inclus les fichiers nécessaires se trouvant dans le dossier models Employees.php
 require_once '../models/Employees.php';
+require_once '../models/Expense_report.php';
 
 
 // Nous définissons un tableau d'erreurs
@@ -38,7 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     // Contrôle du type : être un entier
     if (isset($_POST['type'])) {
-        if (!is_int($_POST['type'])) {
+        if (is_int($_POST['type'])) {
             $errors['type'] = 'ce type de frais n\'existe pas';
         }
     }
@@ -69,15 +70,37 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         } else {
             // controle du type
             // controle de lextension
+            
             // controle de la taille
+            $tmpName = $_FILES['proof']['tmp_name'];
+            $name = $_FILES['proof']['name'];
+            $size = $_FILES['proof']['size'];
+            $error = $_FILES['proof']['error'];
+            $tabExtension = explode('.', $name);
+            $extension = strtolower(end($tabExtension));
+        }
+
+        if(in_array($extension, UPLOAD_EXTENSIONS)) {
+            move_uploaded_file($tmpName, './upload/' . $name);
+        }
+        else{
+            echo "mauvaise extension de fichier";
         }
     }
 
 
-    // si le tableau d'erreurs est vide, on ajoute l'employé dans la base de données
+    // si le tableau d'erreurs n'est pas vide, on ajoute la note dans la base de données
     if (empty($errors)) {
-        // nous mettons en place un message d'erreur dans le cas où la requête échouée
-        $errors['bdd'] = 'Une erreur est survenue lors de la creation de votre compte';
+
+        $objExpense = new Expense_report();
+        if ( $objExpense->addExpense($_SESSION['user']['id'], $_POST['date'], $_POST['amount'], $_POST['amount']*0.80, $_POST['description'], $_FILES['proof']['name'], $_POST['type'])
+        ) {
+            // nous cachons le formulaire
+            $showForm = false;
+        } else {
+            // nous mettons en place un message d'erreur dans le cas où la requête échouée
+            $errors['bdd'] = 'Une erreur est survenue lors de la creation de votre note de frais';
+        }
     }
 
 }
@@ -100,7 +123,7 @@ class ExpenseController
                 // Afficher la liste des notes de frais pour un employé donné
                 $emp_id = 1; // Ici, nous utilisons l'ID de l'employé 1 à titre d'exemple, vous pouvez récupérer l'ID de l'employé connecté
                 $expenses = $model->getEmployeeExpenses($emp_id);
-                include 'app/views/view_expense.php';
+                include '../views/expense-form-view.php';
                 break;
             case 'add':
                 // Ajouter une nouvelle note de frais
@@ -108,16 +131,19 @@ class ExpenseController
                     // Traitement du formulaire d'ajout ici
                     // Récupérer les données du formulaire, puis appeler la fonction pour ajouter la note de frais
                     $emp_id = 1; // Ici, nous utilisons l'ID de l'employé 1 à titre d'exemple, vous pouvez récupérer l'ID de l'employé connecté
-                    $date = $_POST['date'];
-                    $amount = $_POST['amount'];
-                    $description = $_POST['description'];
-                    $model->addExpense($emp_id, $date, $amount, $description);
+                    $exp_date = $_POST['date'];
+                    $exp_amount_ttc = $_POST['amount'];
+                    $exp_amount_ht = $_POST['amount'];
+                    $exp_description = $_POST['description'];
+                    $exp_proof = $_POST['proof'];
+                    $typ_id = $_POST['type'];
+                    $model->addExpense($emp_id, $exp_date, $exp_amount_ttc, $exp_amount_ht, $exp_description, $exp_proof, $typ_id);
 
                     // Rediriger vers la liste des notes de frais
                     header('Location: index.php?controller=Expense&action=list');
                     exit;
                 } else {
-                    include 'app/views/add_expense.php';
+                    include '../views/add_expense.php';
                 }
                 break;
             case 'validate':
@@ -137,41 +163,11 @@ class ExpenseController
         }
     }
 
-    public function login()
-    {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $email = $_POST['email'];
-            $password = $_POST['password'];
-
-            // Vérifier les informations de connexion dans la base de données
-            $isAdmin = $model->checkAdminCredentials($email, $password);
-            $isEmployee = $model->checkEmployeeCredentials($email, $password);
-
-            if ($isAdmin) {
-                // Authentification administrateur réussie
-                session_start();
-                $_SESSION['user_type'] = 'admin';
-
-                // Rediriger vers la page appropriée pour l'administrateur
-                header('Location: index.php?controller=AdminDashboard');
-                exit;
-            } elseif ($isEmployee) {
-                // Authentification employé réussie
-                session_start();
-                $_SESSION['user_type'] = 'employee';
-
-                // Rediriger vers la page appropriée pour l'employé
-                header('Location: index.php?controller=EmployeeDashboard');
-                exit;
-            } else {
-                // Authentification échouée
-                $error = "Adresse e-mail ou mot de passe incorrect.";
-            }
-        }
-
-        include 'app/views/login.php';
     }
-}
+
+        // include '../views/login-view.php';
+    
+
 
 ?>
 

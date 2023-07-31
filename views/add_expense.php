@@ -10,7 +10,7 @@
     <div class="container">
         <h1>Ajouter une note de frais</h1>
         <!-- Afficher le formulaire d'ajout d'une nouvelle note de frais -->
-        <form method="post">
+        <form method="post" action="add_expense_handler.php">
             <!-- Champs pour les nouvelles données -->
             <div class="form-group">
                 <label for="date">Date :</label>
@@ -26,6 +26,11 @@
                 <label for="description">Motif :</label>
                 <input type="text" class="form-control" name="description" id="description" required>
             </div>
+ 
+	    <div class="form-group">
+                <label for="proof">Justificatif :</label>
+                <input type="text" class="form-control" name="proof" id="proof" required>
+            </div>
 
             <button type="submit" class="btn btn-primary">Ajouter la note de frais</button>
         </form>
@@ -36,3 +41,4 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
+

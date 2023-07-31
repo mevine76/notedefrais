@@ -45,7 +45,6 @@ class Employees
             // On injecte les valeurs dans la requête et nous utilisons la méthode bindValue pour se prémunir des injections SQL
             // bien penser à hasher le mot de passe
             $stmt->bindValue(':password', password_hash($post_form['password'], PASSWORD_DEFAULT), PDO::PARAM_STR);
-
             $stmt->bindValue(':firstname', htmlspecialchars($post_form['firstname']), PDO::PARAM_STR);
             $stmt->bindValue(':phonenumber', htmlspecialchars($post_form['phoneNumber']), PDO::PARAM_STR);
             $stmt->bindValue(':lastname', htmlspecialchars($post_form['lastname']), PDO::PARAM_STR);
