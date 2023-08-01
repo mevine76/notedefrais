@@ -73,7 +73,7 @@
 
         <?php } else { ?>
             <!-- Nous indiquons que tout est ok -->
-            <p class="text-center h3">La note a bien été pris en compte.<br>Vous pouvez maintenant vous connecter.</p>
+            <p class="text-center h3">La note a bien été pris en compte.<br>Voulez-vous ajouter une nouvelle note de frais ?</p>
             <div class="text-center py-3">
                 <a href="../controllers/expense-form-controller.php" class="btn btn-secondary font-pangolin m-1">Ajouter une nouvelle note de frais</a>
                 <a href="../controllers/dashboard-controller.php" class="btn btn-secondary font-pangolin m-1">Retour</a>
