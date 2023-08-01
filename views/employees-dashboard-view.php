@@ -60,9 +60,16 @@ include_once 'template/head.php'
                             echo "<td>" . htmlspecialchars($expense['exp_amount_ht']) . "</td>";
                             // echo "<td>" . htmlspecialchars($expense['exp_proof']) . "</td>";
                             // Au lieu d'afficher le nom du justificatif, afficher l'image du dossier upload en miniature
-                            echo "<td><img src='../controllers/upload/facture1.jpg" . htmlspecialchars($expense['exp_proof']) . "'alt='Justificatif' style='max-height: 100px;'></td>";
+                            echo "<td><img src='../controllers/upload/" . htmlspecialchars($expense['exp_proof']) . "' alt='Justificatif' style='max-height: 100px;'></td>";
                             
+                            // Lien "Modifier" pour éditer la note de frais
+                            echo "<td><a href='../controllers/edit-expense-controller.php?id=" . htmlspecialchars($expense['id']) . "'>Modifier</a></td>";
+
+                            // Lien "Supprimer" pour supprimer la note de frais (ajoutez une confirmation JavaScript si nécessaire)
+
+                            echo "<td><a href='../controllers/delete-expense-controller.php?id=" . htmlspecialchars($expense['id']) . "'>Supprimer</a></td>";
                             // Afficher d'autres colonnes si nécessaire
+                            
                             echo "</tr>";
                         }
                     } catch (PDOException $e) {
